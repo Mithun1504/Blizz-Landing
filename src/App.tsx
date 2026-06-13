@@ -22,6 +22,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import heroBgUrl from "../hero-bg.png.png";
 import logoUrl from "../logo.png";
 
 type IconType = React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -204,10 +205,10 @@ function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a className="btn-secondary min-w-[94px]" href="#login">
+          <a className="btn-secondary h-[52px] min-w-[150px] text-[18px]" href="#login">
             Login
           </a>
-          <a className="btn-primary min-w-[108px]" href="#get-started">
+          <a className="btn-primary h-[52px] min-w-[160px] text-[18px]" href="#get-started">
             Get Started
           </a>
         </div>
@@ -375,19 +376,14 @@ function HeroDashboard() {
   );
 }
 
-function Skyline() {
-  return (
-    <div className="skyline" aria-hidden="true">
-      {Array.from({ length: 34 }, (_, index) => (
-        <span key={index} />
-      ))}
-    </div>
-  );
-}
-
 function Hero() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden bg-white pb-7">
+    <section
+      className="hero-section relative overflow-hidden bg-white pb-7"
+      style={{ backgroundImage: `url(${heroBgUrl})` }}
+    >
       <div className="hero-grid mx-auto max-w-[1680px] px-5 pt-12 lg:px-10 lg:pt-10">
         <motion.div
           className="hero-copy relative z-10 max-w-[700px] pt-2"
@@ -424,13 +420,20 @@ function Hero() {
           </div>
         </motion.div>
 
-        <div className="hero-dashboard-shell relative z-10">
+        <motion.div
+          className="hero-dashboard-shell relative z-10"
+          animate={reduceMotion ? undefined : { y: [0, -12, 0] }}
+          transition={
+            reduceMotion
+              ? undefined
+              : { duration: 5.5, ease: "easeInOut", repeat: Infinity }
+          }
+        >
           <div className="hero-dashboard-scale">
             <HeroDashboard />
           </div>
-        </div>
+        </motion.div>
       </div>
-      <Skyline />
     </section>
   );
 }
