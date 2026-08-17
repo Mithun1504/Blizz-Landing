@@ -41,6 +41,12 @@ const employeePhotoModules = import.meta.glob<string>("../assets/employee/*.png"
   query: "?url",
 });
 
+const reviewPhotoModules = import.meta.glob<string>("../assets/reviews/p*.png", {
+  eager: true,
+  import: "default",
+  query: "?url",
+});
+
 function sortAssetModules(modules: Record<string, string>): string[] {
   return Object.entries(modules)
     .sort(([left], [right]) => left.localeCompare(right, undefined, { numeric: true }))
@@ -51,6 +57,7 @@ export const heroScreenUrls = sortAssetModules(heroScreenModules);
 export const posPhotoUrls = sortAssetModules(posPhotoModules);
 export const inventoryPhotoUrls = sortAssetModules(inventoryPhotoModules);
 export const employeePhotoUrls = sortAssetModules(employeePhotoModules);
+export const reviewPhotoUrls = sortAssetModules(reviewPhotoModules);
 
 export const photoAssets = [
   photo01Url,
