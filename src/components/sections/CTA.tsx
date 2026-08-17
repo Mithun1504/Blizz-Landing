@@ -1,29 +1,24 @@
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { MotionSection } from "../motion/MotionSection";
-import { DevicePreview } from "../visuals/DevicePreview";
-import { ReceiptIllustration } from "../visuals/ReceiptIllustration";
+import { useDemoModal } from "../lead/demoModalContext";
 
 export function CTA() {
+  const { openDemoModal } = useDemoModal();
+
   return (
-    <MotionSection className="overflow-hidden bg-navy py-9 text-white">
-      <div className="mx-auto grid max-w-[1680px] items-center gap-6 px-5 lg:grid-cols-[220px_1fr_360px] lg:px-10">
-        <ReceiptIllustration />
-        <div className="text-center lg:text-left">
-          <h2 className="text-[28px] font-extrabold leading-tight sm:text-[32px] lg:text-[27px] xl:text-[34px]">
-            Ready to build a <span className="text-emerald-400">stronger business?</span>
-          </h2>
-          <p className="mt-4 text-[16px] text-white/88 xl:text-[18px]">
-            Join thousands of businesses growing with Blizbooks.
-          </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-4 lg:justify-start">
-            <a href="#get-started" className="btn-primary h-[54px] min-w-[170px] text-base">
-              Get Started Free
-            </a>
-            <a href="#book-demo" className="btn-dark-outline h-[54px] min-w-[154px] text-base">
-              Book a Demo
-            </a>
-          </div>
+    <MotionSection className="cta-section">
+      <div className="section-container cta-inner">
+        <div>
+          <p className="eyebrow">Start with the work in front of you</p>
+          <h2>Bring your business into one clearer view.</h2>
+          <p>Explore the BlizBooks platform and find the workflows that fit your next step.</p>
         </div>
-        <DevicePreview />
+        <div className="cta-actions">
+          <button type="button" className="button button-primary" onClick={openDemoModal}>
+            Schedule a Demo <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+          </button>
+          <span><CheckCircle2 aria-hidden="true" className="h-4 w-4" /> Built for Today. Ready for Tomorrow.</span>
+        </div>
       </div>
     </MotionSection>
   );

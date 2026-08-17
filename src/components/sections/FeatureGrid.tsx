@@ -1,34 +1,30 @@
-import { motion } from "framer-motion";
 import { features } from "../../data/landing";
-import { fadeUp } from "../motion/motionVariants";
 import { MotionSection } from "../motion/MotionSection";
 import { IconBubble } from "../ui/IconBubble";
+import { SectionHeading } from "../ui/SectionHeading";
 
 export function FeatureGrid() {
   return (
-    <MotionSection className="bg-white py-9" id="features">
-      <div className="mx-auto max-w-[1500px] px-5 lg:px-10">
-        <h2 className="text-center text-[27px] font-extrabold text-ink">
-          Everything you need to <span className="text-mint">run your business</span>
-        </h2>
-        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ icon: Icon, title, text }, index) => (
-            <motion.article
+    <MotionSection className="section-shell" id="features">
+      <div className="section-container">
+        <SectionHeading
+          eyebrow="Features"
+          title="A clearer way to run the details"
+          description="Nine connected capabilities help your team stay on top of money, stock, people and the customer experience."
+        />
+        <div className="feature-grid">
+          {features.map(({ icon: Icon, title, text }) => (
+            <article
+              className="feature-card"
+              id={`feature-${title.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and")}`}
               key={title}
-              className="feature-card group"
-              variants={fadeUp}
-              transition={{ delay: index * 0.04, duration: 0.45 }}
-              whileHover={{ y: -6 }}
             >
-              <IconBubble icon={Icon} className="h-[50px] w-[50px]" />
+              <IconBubble icon={Icon} className="feature-icon" />
               <div>
                 <h3>{title}</h3>
                 <p>{text}</p>
-                <a href="#learn-more">
-                  Learn more <span aria-hidden="true">→</span>
-                </a>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>

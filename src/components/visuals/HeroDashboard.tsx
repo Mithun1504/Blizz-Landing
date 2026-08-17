@@ -12,10 +12,10 @@ import { motion } from "framer-motion";
 import { logoUrl } from "../../assets";
 
 const transactions = [
-  ["Invoice #INV-1012", "Customer Payment", "₹45,000", "20 May 2024", "Paid"],
-  ["Bill #BILL-2054", "Office Supplies", "₹12,500", "19 May 2024", "Paid"],
-  ["Invoice #INV-1011", "Customer Payment", "₹32,000", "18 May 2024", "Paid"],
-  ["Expense #EXP-008", "Electricity Bill", "₹8,750", "18 May 2024", "Paid"],
+  ["Invoice #INV-1012", "Customer Payment", "₹45,000", "Today", "Paid"],
+  ["Bill #BILL-2054", "Office Supplies", "₹12,500", "Yesterday", "Paid"],
+  ["Invoice #INV-1011", "Customer Payment", "₹32,000", "Yesterday", "Paid"],
+  ["Expense #EXP-008", "Electricity Bill", "₹8,750", "This week", "Paid"],
 ];
 
 const metrics = [
@@ -58,7 +58,7 @@ export function HeroDashboard() {
         </div>
         <h2>Dashboard</h2>
         <div className="ml-auto flex items-center gap-2 text-[10px] font-semibold text-ink">
-          Acme Pvt. Ltd.
+          Your business
           <ChevronDown className="h-3 w-3" />
         </div>
       </div>

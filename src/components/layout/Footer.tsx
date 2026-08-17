@@ -1,69 +1,79 @@
+import { Apple, Facebook, Instagram, Linkedin, Play, Youtube } from "lucide-react";
 import { logoUrl } from "../../assets";
-import { footerGroups } from "../../data/landing";
+import { footerGroups, officialSocialLinks, storeLinks } from "../../data/landing";
+import { legalDocuments } from "../../data/legal";
+import { SiteLink } from "../ui/SiteLink";
 
-const socialLinks = ["f", "in", "t", "▶"];
+const socialIcons = [
+  { label: "Instagram", icon: Instagram },
+  { label: "Facebook", icon: Facebook },
+  { label: "LinkedIn", icon: Linkedin },
+  { label: "YouTube", icon: Youtube },
+];
 
 export function Footer() {
+  const activeSocialLabels = new Set(officialSocialLinks.map(({ label }) => label));
+
   return (
-    <footer className="bg-white">
-      <div className="mx-auto grid max-w-[1680px] gap-9 px-5 py-8 lg:grid-cols-[280px_repeat(5,1fr)] lg:px-10">
-        <div>
-          <img
-            src={logoUrl}
-            alt="Blizbooks"
-            className="h-[49px] w-[185px] object-contain object-left"
-          />
-          <p className="mt-4 max-w-[220px] text-[13px] leading-6 text-slate-600">
-            Smart accounting and business management software for modern businesses.
-          </p>
-          <div className="mt-4 flex gap-3">
-            {socialLinks.map((item) => (
-              <a
-                key={item}
-                href="#social"
-                className="social-link"
-                aria-label={`Blizbooks social ${item}`}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
+    <footer className="site-footer">
+      <div className="section-container footer-grid">
+        <div className="footer-brand">
+          <img src={logoUrl} alt="BlizBooks" />
+          <p>Innovation Made Simple. Performance Made Powerful.</p>
+          {officialSocialLinks.length > 0 ? (
+            <div className="social-links" aria-label="Official BlizBooks social media">
+              {socialIcons.filter(({ label }) => activeSocialLabels.has(label)).map(({ label, icon: Icon }) => {
+                const officialLink = officialSocialLinks.find((link) => link.label === label);
+                return officialLink ? (
+                  <a href={officialLink.href} aria-label={label} key={label}>
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ) : null;
+              })}
+            </div>
+          ) : null}
         </div>
 
         {footerGroups.map((group) => (
-          <div key={group.title}>
-            <h3 className="footer-title">{group.title}</h3>
-            <ul className="mt-4 space-y-3">
+          <div className="footer-group" key={group.title}>
+            <h3>{group.title}</h3>
+            <ul>
               {group.links.map((link) => (
-                <li key={link}>
-                  <a className="footer-link" href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}>
-                    {link}
-                  </a>
-                </li>
+                <li key={link.label}><a href={link.href}>{link.label}</a></li>
               ))}
             </ul>
           </div>
         ))}
 
-        <div>
-          <h3 className="footer-title">Download the App</h3>
-          <div className="mt-4 space-y-3">
-            <a href="#google-play" className="store-badge">
-              <span className="play-icon" />
-              <small>GET IT ON</small>
-              Google Play
-            </a>
-            <a href="#app-store" className="store-badge">
-              <span className="apple-icon" />
-              <small>Download on the</small>
-              App Store
-            </a>
+        <div className="footer-group">
+          <h3>Legal</h3>
+          <ul>
+            {legalDocuments.map(({ slug, title }) => (
+              <li key={title}>
+                <SiteLink className="footer-link-button" href={`/${slug}`}>
+                  {title}
+                </SiteLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {storeLinks.googlePlay || storeLinks.appStore ? (
+          <div className="footer-group footer-downloads">
+            <h3>Mobile Applications</h3>
+            <div className="store-badges">
+              {storeLinks.googlePlay ? <a href={storeLinks.googlePlay} className="store-badge"><Play className="h-5 w-5 fill-current" /> Google Play</a> : null}
+              {storeLinks.appStore ? <a href={storeLinks.appStore} className="store-badge"><Apple className="h-5 w-5 fill-current" /> App Store</a> : null}
+            </div>
           </div>
+        ) : null}
+      </div>
+      <div className="footer-bottom">
+        <div className="section-container">
+          <span>© 2026 BlizBooks. All rights reserved.</span>
+          <span>Built for Today. Ready for Tomorrow.</span>
         </div>
       </div>
-      <p className="border-t border-borderSoft py-4 text-center text-[12px] text-slate-500">
-        © 2024 Blizbooks. All rights reserved.
-      </p>
     </footer>
   );
 }

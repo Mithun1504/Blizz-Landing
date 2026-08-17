@@ -1,23 +1,29 @@
-import { CheckCircle2 } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { heroBgUrl } from "../../assets";
-import { heroBenefits } from "../../data/landing";
-import { HeroDashboard } from "../visuals/HeroDashboard";
+import { heroBgUrl, heroScreenUrls } from "../../assets";
+import { HeroScreenCarousel } from "../visuals/HeroScreenCarousel";
+import { useDemoModal } from "../lead/demoModalContext";
+
+const heroPillars = ["Sales", "Stock", "People", "Finance"];
 
 export function Hero() {
+  const { openDemoModal } = useDemoModal();
   const reduceMotion = useReducedMotion();
 
   return (
     <section
-      className="hero-section relative overflow-hidden bg-white pb-7"
+      className="hero-section relative overflow-hidden"
+      id="home"
       style={{ backgroundImage: `url(${heroBgUrl})` }}
     >
-      <div className="hero-grid mx-auto max-w-[1680px] px-5 pt-12 lg:px-10 lg:pt-10">
+      <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
+      <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
+      <div className="hero-container">
         <motion.div
-          className="hero-copy relative z-10 max-w-[700px] pt-2"
-          initial={{ opacity: 0, y: 26 }}
+          className="hero-copy"
+          initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1 className="text-[46px] font-extrabold leading-[1.08] text-ink sm:text-[58px] lg:text-[52px] xl:text-[68px]">
             <span className="text-mint">Smart</span> Books.
@@ -26,39 +32,35 @@ export function Hero() {
               <span className="text-mint">Strong</span> Business.
             </span>
           </h1>
-          <p className="mt-7 max-w-[455px] text-[18px] leading-[1.65] text-slate-700">
-            Blizbooks is the all-in-one accounting and business management platform for modern
-            businesses.
+          <p className="hero-lede">
+            Future-ready technology that simplifies operations, strengthens performance, and empowers sustainable business growth.
           </p>
-          <div className="mt-8 flex flex-wrap gap-5">
-            <a href="#get-started" className="btn-primary h-[55px] min-w-[166px] text-base">
-              Get Started Free
+          <div className="hero-actions">
+            <a href="#products" className="button button-primary">
+              Explore Our Products <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
             </a>
-            <a href="#book-demo" className="btn-outline h-[55px] min-w-[166px] text-base">
-              Book a Demo
-            </a>
+            <button type="button" className="button button-quiet" onClick={openDemoModal}>
+              Get Started <ArrowDownRight aria-hidden="true" className="h-4 w-4" />
+            </button>
           </div>
-          <div className="mt-8 flex flex-wrap gap-x-7 gap-y-3 text-[13px] font-medium text-slate-600">
-            {heroBenefits.map((item) => (
-              <span key={item} className="inline-flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-mint" />
-                {item}
-              </span>
+          <div className="hero-tagline">
+            <CheckCircle2 aria-hidden="true" className="h-5 w-5" />
+            Built for Today. Ready for Tomorrow.
+          </div>
+          <div className="hero-pillar-list" aria-label="Business areas covered">
+            {heroPillars.map((pillar) => (
+              <span key={pillar}>{pillar}</span>
             ))}
           </div>
         </motion.div>
 
         <motion.div
-          className="hero-dashboard-shell relative z-10"
-          animate={reduceMotion ? undefined : { y: [0, -12, 0] }}
-          transition={
-            reduceMotion
-              ? undefined
-              : { duration: 5.5, ease: "easeInOut", repeat: Infinity }
-          }
+          className="hero-dashboard-shell"
+          animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
+          transition={reduceMotion ? undefined : { duration: 6, ease: "easeInOut", repeat: Infinity }}
         >
           <div className="hero-dashboard-scale">
-            <HeroDashboard />
+            <HeroScreenCarousel images={heroScreenUrls} />
           </div>
         </motion.div>
       </div>

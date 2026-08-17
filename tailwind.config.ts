@@ -10,13 +10,15 @@ export default {
         emeraldSoft: "#eaf8f3",
         borderSoft: "#e7f0ee",
         navy: "#001f3e",
+        surface: "#f6faf8",
       },
       boxShadow: {
         dashboard: "0 22px 55px rgba(3, 32, 55, 0.12)",
         card: "0 18px 45px rgba(8, 58, 55, 0.06)",
       },
       fontFamily: {
-        sans: ["Inter", "Manrope", "system-ui", "sans-serif"],
+        sans: ["Manrope", "system-ui", "sans-serif"],
+        display: ["Manrope", "system-ui", "sans-serif"],
       },
     },
   },

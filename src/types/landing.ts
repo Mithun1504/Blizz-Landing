@@ -4,7 +4,9 @@ export type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
 export type NavItem = {
   label: string;
+  href: string;
   dropdown?: boolean;
+  children?: Array<{ label: string; href: string }>;
 };
 
 export type IconTextItem = {
@@ -13,13 +15,31 @@ export type IconTextItem = {
   text: string;
 };
 
-export type TrustStat = {
-  icon: IconType;
-  value: string;
-  label: string;
+export type Product = IconTextItem & {
+  accent: string;
+};
+
+export type PhotoItem = {
+  src: string;
+  alt: string;
+  category: string;
+};
+
+export type PhotoCollection = {
+  title: string;
+  description: string;
+  photos: PhotoItem[];
+};
+
+export type VideoItem = {
+  title: string;
+  category: string;
+  description: string;
+  thumbnail: string;
+  youtubeUrl?: string;
 };
 
 export type FooterGroup = {
   title: string;
-  links: string[];
+  links: Array<{ label: string; href: string }>;
 };

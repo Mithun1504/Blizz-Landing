@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">BlizBooks office location map</title>
+  <desc id="desc">Map illustration for the BlizBooks office location.</desc>
+  <rect width="1200" height="640" fill="#e9f5f0"/>
+  <path d="M0 120 180 80l160 100 190-70 170 90 190-120 300 90v560H0Z" fill="#d8eee6"/>
+  <path d="M-40 480c180-100 280-20 420-120s260-40 380-140 230-30 480-100M20 240c160 80 280 20 380 110s230 80 360 0 250-45 470 30" fill="none" stroke="#b6d8cf" stroke-width="18"/>
+  <path d="M150 0 260 640M520 0 470 640M860 0 760 640M1040 0 1100 640" stroke="#c3e1d9" stroke-width="7"/>
+  <circle cx="606" cy="288" r="34" fill="#078b6a"/>
+  <path d="M606 356c-49-72-73-108-73-140a73 73 0 1 1 146 0c0 32-24 68-73 140Z" fill="#078b6a"/>
+  <circle cx="606" cy="214" r="18" fill="#f6fbf8"/>
+</svg>

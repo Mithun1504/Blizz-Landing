@@ -1,96 +1,98 @@
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { logoUrl } from "../../assets";
+import { logoGif } from "../../assets";
+import { useDemoModal } from "../lead/demoModalContext";
 import { navItems } from "../../data/landing";
+import { SiteLink } from "../ui/SiteLink";
 
 export function Header() {
+  const { openDemoModal } = useDemoModal();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const closeMenu = () => setIsMenuOpen(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setIsProductsOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-transparent bg-white/88 backdrop-blur-xl">
-      <div className="mx-auto flex h-[78px] max-w-[1680px] items-center justify-between px-5 lg:px-10">
-        <a className="flex items-center" href="#" aria-label="Blizbooks home" onClick={closeMenu}>
-          <img
-            src={logoUrl}
-            alt="Blizbooks"
-            className="h-[46px] w-[182px] object-contain object-left"
-          />
-        </a>
+    <header className="site-header">
+      <div className="header-inner">
+        <SiteLink className="brand-lockup" href="#home" aria-label="BlizBooks home" onClick={closeMenu}>
+          <img src={logoGif} alt="BlizBooks"/>
+        </SiteLink>
 
-        <nav className="hidden items-center gap-[42px] text-[15px] font-semibold text-black lg:flex">
+        <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={`#${item.label.toLowerCase().replace(/\s+/g, "-")}`}
-              className="inline-flex items-center gap-1 transition-colors hover:text-mint"
-            >
-              {item.label}
-              {item.dropdown ? <ChevronDown className="h-3.5 w-3.5" /> : null}
-            </a>
+            <div className="nav-item-wrap" key={item.label}>
+              {item.dropdown && item.children ? (
+                <>
+                  <button
+                    type="button"
+                    className="nav-link nav-dropdown-trigger"
+                    aria-expanded={isProductsOpen}
+                    onClick={() => setIsProductsOpen((open) => !open)}
+                  >
+                    {item.label}
+                    <ChevronDown className={`h-3.5 w-3.5 ${isProductsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <div className={`nav-dropdown ${isProductsOpen ? "nav-dropdown-open" : ""}`}>
+                    {item.children.map((child) => (
+                      <SiteLink key={child.label} href={child.href} onClick={closeMenu}>
+                        {child.label}
+                      </SiteLink>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <SiteLink className="nav-link" href={item.href} onClick={closeMenu}>{item.label}</SiteLink>
+              )}
+            </div>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <a className="btn-secondary h-[52px] min-w-[150px] text-[18px]" href="#login">
-            Login
-          </a>
-          <a className="btn-primary h-[52px] min-w-[160px] text-[18px]" href="#get-started">
-            Get Started
-          </a>
-        </div>
-
+        <button className="button button-primary header-cta" type="button" onClick={openDemoModal}>Get Started</button>
         <button
-          className="grid h-11 w-11 place-items-center rounded-lg border border-slate-200 text-ink lg:hidden"
+          className="menu-toggle"
           type="button"
           aria-controls="mobile-navigation"
           aria-expanded={isMenuOpen}
           aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={() => setIsMenuOpen((current) => !current)}
+          onClick={() => setIsMenuOpen((open) => !open)}
         >
           {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      <div
-        id="mobile-navigation"
-        className={`border-t border-borderSoft bg-white px-5 pb-5 pt-3 shadow-card transition-all duration-300 lg:hidden ${
-          isMenuOpen
-            ? "pointer-events-auto translate-y-0 opacity-100"
-            : "pointer-events-none hidden -translate-y-2 opacity-0"
-        }`}
-      >
-        <nav className="mx-auto flex max-w-[1680px] flex-col gap-1" aria-label="Mobile navigation">
+      <div id="mobile-navigation" className={`mobile-navigation ${isMenuOpen ? "mobile-navigation-open" : ""}`}>
+        <nav aria-label="Mobile navigation">
           {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={`#${item.label.toLowerCase().replace(/\s+/g, "-")}`}
-              className="flex items-center justify-between rounded-lg px-3 py-3 text-[16px] font-bold text-ink transition-colors hover:bg-emeraldSoft hover:text-mint"
-              onClick={closeMenu}
-            >
-              {item.label}
-              {item.dropdown ? <ChevronDown className="h-4 w-4" /> : null}
-            </a>
+            <div key={item.label}>
+              {item.dropdown && item.children ? (
+                <>
+                  <button
+                    type="button"
+                    className="mobile-nav-link mobile-product-toggle"
+                    aria-expanded={isProductsOpen}
+                    onClick={() => setIsProductsOpen((open) => !open)}
+                  >
+                    {item.label}
+                    <ChevronDown className={`h-4 w-4 ${isProductsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <div className={`mobile-product-list ${isProductsOpen ? "mobile-product-list-open" : ""}`}>
+                    <div>
+                      {item.children.map((child) => (
+                        <SiteLink key={child.label} href={child.href} onClick={closeMenu}>{child.label}</SiteLink>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <SiteLink className="mobile-nav-link" href={item.href} onClick={closeMenu}>{item.label}</SiteLink>
+              )}
+            </div>
           ))}
         </nav>
-
-        <div className="mx-auto mt-4 grid max-w-[1680px] gap-3 sm:grid-cols-2">
-          <a
-            className="btn-secondary h-[50px] w-full text-[16px]"
-            href="#login"
-            onClick={closeMenu}
-          >
-            Login
-          </a>
-          <a
-            className="btn-primary h-[50px] w-full text-[16px]"
-            href="#get-started"
-            onClick={closeMenu}
-          >
-            Get Started
-          </a>
-        </div>
+        <button className="button button-primary mobile-cta" type="button" onClick={() => { closeMenu(); openDemoModal(); }}>Get Started</button>
       </div>
     </header>
   );
