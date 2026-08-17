@@ -1,5 +1,5 @@
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logoGif } from "../../assets";
 import { useDemoModal } from "../lead/demoModalContext";
 import { navItems } from "../../data/landing";
@@ -9,13 +9,23 @@ export function Header() {
   const { openDemoModal } = useDemoModal();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateScrollState = () => setIsScrolled(window.scrollY > 12);
+
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsProductsOpen(false);
   };
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${isScrolled ? "site-header-scrolled" : ""}`}>
       <div className="header-inner">
         <SiteLink className="brand-lockup" href="#home" aria-label="BlizBooks home" onClick={closeMenu}>
           <img src={logoGif} alt="BlizBooks"/>

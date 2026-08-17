@@ -4,6 +4,9 @@ import { SiteLink } from "../ui/SiteLink";
 import { DemoModalContext } from "./demoModalContext";
 
 const interestOptions = ["POS", "Inventory Management", "Accounting", "Employee Management"] as const;
+const formSubmitRecipient = "blizbooks5@gmail.com)";
+const formSubmitAction = `https://formsubmit.co/${formSubmitRecipient}`;
+const formSubmitAjaxEndpoint = `https://formsubmit.co/ajax/${formSubmitRecipient}`;
 
 type DemoFormState = {
   name: string;
@@ -50,6 +53,8 @@ type ScheduleDemoModalProps = {
 
 function ScheduleDemoModal({ isSubmitted, setIsSubmitted, onClose }: ScheduleDemoModalProps) {
   const [form, setForm] = useState(initialForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -72,9 +77,36 @@ function ScheduleDemoModal({ isSubmitted, setIsSubmitted, onClose }: ScheduleDem
     setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch(formSubmitAjaxEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          _replyto: form.email,
+          _subject: "New BlizBooks demo request",
+          _template: "table",
+        }),
+      });
+      const responseBody: unknown = await response.json();
+      const success = typeof responseBody === "object" && responseBody !== null && "success" in responseBody
+        && (responseBody.success === true || responseBody.success === "true");
+
+      if (!response.ok || !success) throw new Error("FormSubmit rejected the request");
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError("We couldn’t send your request right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -101,7 +133,7 @@ function ScheduleDemoModal({ isSubmitted, setIsSubmitted, onClose }: ScheduleDem
             <button type="button" className="button button-primary" onClick={onClose}>Close</button>
           </div>
         ) : (
-          <form className="demo-form" onSubmit={handleSubmit}>
+          <form action={formSubmitAction} method="POST" className="demo-form" onSubmit={handleSubmit}>
             <p id="demo-modal-description" className="demo-form-intro">Tell us a little about your business and what you want to explore.</p>
             <div className="demo-form-grid">
               <label className="form-field">
@@ -139,7 +171,10 @@ function ScheduleDemoModal({ isSubmitted, setIsSubmitted, onClose }: ScheduleDem
                 ))}
               </div>
             </fieldset>
-            <button type="submit" className="button button-primary demo-submit">Submit</button>
+            <button type="submit" className="button button-primary demo-submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+              {isSubmitting ? "Sending…" : "Submit"}
+            </button>
+            {submitError ? <p className="demo-form-error" role="alert">{submitError}</p> : null}
             <p className="demo-privacy-copy">By submitting this form, you agree to receive updates from BlizBooks and accept our <SiteLink href="/privacy-policy" onClick={onClose}>Privacy Policy</SiteLink>.</p>
           </form>
         )}
