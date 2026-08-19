@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { MotionSection } from "../motion/MotionSection";
 import { useDemoModal } from "../lead/demoModalContext";
 
-const officeAddress = "BLIZBOOKS PRIVATE LIMITED ARELEPET COTTONPET BANGALORE SOUTH 237 CHICKPET BANGALORE-560053 KARNATAKA";
+const officeAddress = "BLIZBOOKS PRIVATE LIMITED";
 const encodedOfficeAddress = encodeURIComponent(officeAddress);
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodedOfficeAddress}&output=embed`;
 const mapDirectionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedOfficeAddress}`;
@@ -29,8 +29,7 @@ export function Contact() {
             referrerPolicy="no-referrer-when-downgrade"
           />
           <div className="map-card-footer">
-            <p>{officeAddress}</p>
-            <a className="button button-light" href={mapDirectionsUrl} target="_blank" rel="noreferrer">
+            <a className="button button-light " href={mapDirectionsUrl} target="_blank" rel="noreferrer">
               Open in Google Maps <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
             </a>
           </div>

@@ -4,7 +4,7 @@ import { SiteLink } from "../ui/SiteLink";
 import { DemoModalContext } from "./demoModalContext";
 
 const interestOptions = ["POS", "Inventory Management", "Accounting", "Employee Management"] as const;
-const formSubmitRecipient = "blizbooks5@gmail.com)";
+const formSubmitRecipient = "blizbooks5@gmail.com";
 const formSubmitAction = `https://formsubmit.co/${formSubmitRecipient}`;
 const formSubmitAjaxEndpoint = `https://formsubmit.co/ajax/${formSubmitRecipient}`;
 
